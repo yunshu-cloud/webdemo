@@ -44,6 +44,8 @@ public class UserLoginServlet extends HttpServlet
             HttpSession temp = (HttpSession) servletContext.getAttribute(users.getUserid() + "");
             if(temp != null){ // 若之前存在已经登录的session,将其从全局变量servletContext中移除，并将其session失效
                 servletContext.removeAttribute(users.getUserid()+"");
+
+                // 若之前登录的session由于超时时间到了已被销毁了 此处在此销毁会出现错误，所以需要session生命周期的监听器来移除servletContext中已经超时的session
                 temp.invalidate();
             }
 

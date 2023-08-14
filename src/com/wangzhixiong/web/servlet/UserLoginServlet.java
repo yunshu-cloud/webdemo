@@ -6,6 +6,7 @@ import com.wangzhixiong.pojo.Users;
 import com.wangzhixiong.service.UserLoginService;
 import com.wangzhixiong.service.impl.UserLoginServiceImpl;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,6 +38,17 @@ public class UserLoginServlet extends HttpServlet
             // 建立客户端和服务端的会话状态
             HttpSession session = req.getSession();
             session.setAttribute(Constants.USER_SESSION_KEY,users);
+
+            // 实现单点登录 首先判断在全局变量servletContext中是否存在之前登录的session，只要登录就将session存放到servletContext全局变量中，以userid作为key,session作为value
+            ServletContext servletContext = this.getServletContext();
+            HttpSession temp = (HttpSession) servletContext.getAttribute(users.getUserid() + "");
+            if(temp != null){ // 若之前存在已经登录的session,将其从全局变量servletContext中移除，并将其session失效
+                servletContext.removeAttribute(users.getUserid()+"");
+                temp.invalidate();
+            }
+
+            // 只要登录就将session存放到servletContext全局变量中
+            servletContext.setAttribute(users.getUserid()+"",session);
 
             // 使用重定向跳转首页 地址栏会发生改变,不传递参数
             resp.sendRedirect("main.jsp");

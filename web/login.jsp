@@ -14,7 +14,11 @@
     <script language="JavaScript" src="js/jquery.js"></script>
     <script src="js/cloud.js" type="text/javascript"></script>
 
+
     <script language="javascript">
+        if(window.parent.length > 0){
+            window.parent.location = "login.jsp";
+        }
         $(function(){
             $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
             $(window).resize(function(){
@@ -22,7 +26,6 @@
             })
         });
     </script>
-
 </head>
 
 <body style="background-color:#1c77ac; background-image:url(images/light.png); background-repeat:no-repeat; background-position:center top; overflow:hidden;">

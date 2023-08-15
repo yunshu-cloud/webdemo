@@ -26,7 +26,7 @@ public class UserLoginFilter implements Filter
     {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String uri = request.getRequestURI();
-        if(uri.indexOf("login.jsp") != -1 || uri.indexOf("login.do") != -1){ // 放行两类uri
+        if(uri.indexOf("login.jsp") != -1 || uri.indexOf("login.do") != -1 || uri.indexOf("validateCode.do") != -1){ // 放行两类uri
             filterChain.doFilter(servletRequest, servletResponse);
         }else {
             HttpSession session = request.getSession();

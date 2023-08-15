@@ -25,6 +25,9 @@
                 $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
             })
         });
+        function change(){
+            $("#code").attr("src","validateCode.do?"+Math.random());
+        }
     </script>
 </head>
 
@@ -56,7 +59,7 @@
                 <li><input name="username" type="text" class="loginuser" value="admin" onclick="JavaScript:this.value=''"/></li>
                 <li><input name="userpwd" type="text" class="loginpwd" value="密码" onclick="JavaScript:this.value=''"/></li>
                 <li class="yzm">
-                    <span><input name="" type="text" value="验证码" onclick="JavaScript:this.value=''"/></span><cite>X3D5S</cite>
+                    <span><input name="code" type="text" value="验证码" onclick="JavaScript:this.value=''"/></span><cite><img id="code" src="validateCode.do" onclick="change()"></cite>
                 </li>
                 <li><input name="" type="submit" class="loginbtn" value="登录"  onclick="javascript:window.location='main.html'"  /></li>
             </ul>

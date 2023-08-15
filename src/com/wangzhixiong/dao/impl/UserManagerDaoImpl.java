@@ -6,6 +6,9 @@ import com.wangzhixiong.pojo.Users;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 用户管理持久层
@@ -34,5 +37,58 @@ public class UserManagerDaoImpl implements UserManagerDao
         {
             JdbcUtils.closeConnection(conn);
         }
+    }
+
+    /**
+     * 查询用户
+     * @param users
+     * @return
+     */
+    @Override
+    public List<Users> selectUserByProperty(Users users)
+    {
+        Connection conn = null;
+        List<Users> list = new ArrayList<>();
+        try{
+            conn = JdbcUtils.getConnection();
+            String sql = this.createSQL(users);
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet resultSet = ps.executeQuery();
+            while(resultSet.next()){
+                Users user = new Users();
+                user.setUserid(resultSet.getInt("userid"));
+                user.setPhonenumber(resultSet.getString("phonenumber"));
+                user.setUsersex(resultSet.getString("usersex"));
+                user.setQqnumber(resultSet.getString("qqnumber"));
+                user.setUserpwd(resultSet.getString("userpwd"));
+                user.setUsername(resultSet.getString("username"));
+                list.add(user);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally
+        {
+            JdbcUtils.closeConnection(conn);
+        }
+        return list;
+    }
+
+    // 拼接查询的SQL语句
+    private String createSQL(Users users)
+    {
+        StringBuffer stringBuffer = new StringBuffer("select * from users where 1=1");
+        if(users.getUsersex() != null && users.getUsersex().length() > 0){
+            stringBuffer.append(" and usersex = "+users.getUsersex());
+        }
+        if(users.getQqnumber() != null && users.getQqnumber().length() > 0){
+            stringBuffer.append(" and qqnumber = "+users.getQqnumber());
+        }
+        if(users.getUsername() != null && users.getUsername().length() > 0){
+            stringBuffer.append(" and username = '"+users.getUsername()+"'");
+        }
+        if(users.getPhonenumber() != null && users.getPhonenumber().length() > 0){
+            stringBuffer.append(" and phonenumber = "+users.getPhonenumber());
+        }
+        return stringBuffer.toString();
     }
 }

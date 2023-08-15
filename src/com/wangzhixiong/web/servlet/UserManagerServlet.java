@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * 处理用户管理请求
@@ -29,6 +30,28 @@ public class UserManagerServlet extends HttpServlet
         String flag = req.getParameter("flag");
         if("addUser".equals(flag)){
             this.addUser(req,resp);
+        } else if ("findUser".equals(flag))
+        {
+            this.findUser(req,resp);
+        }
+    }
+
+    /**
+     * 处理查询用户请求
+     * @param req
+     * @param resp
+     */
+    private void findUser(HttpServletRequest req, HttpServletResponse resp) throws IOException
+    {
+        Users user =this.createUsers(req);
+        try{
+            UserManagerService userManagerService = new UserManagerServiceImpl();
+            List<Users> list = userManagerService.findUsers(user);
+            req.setAttribute("list",list);
+            req.getRequestDispatcher("usermanager/viewUser.jsp").forward(req,resp);
+        }catch (Exception e){
+            e.printStackTrace();
+            resp.sendRedirect("error.jsp");
         }
     }
 

@@ -30,7 +30,7 @@
   <div class="formtitle"><span>基本信息</span></div>
 
   <form action="../userManager.do" method="post">
-    <input type="hidden" name="flag" value="addUser">
+    <input type="hidden" name="flag" value="addUser"/>
     <ul class="forminfo">
       <li>
         <label>用户名</label>

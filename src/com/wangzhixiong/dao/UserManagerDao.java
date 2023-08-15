@@ -10,5 +10,6 @@ public interface UserManagerDao
     List<Users> selectUserByProperty(Users users);
     Users selectUserByUserId(int userid);
     void updateUserByUserId(Users users);
+    void deleteUserByUserId(int userid);
 
 }

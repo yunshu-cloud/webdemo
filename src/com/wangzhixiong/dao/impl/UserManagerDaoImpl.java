@@ -135,6 +135,26 @@ public class UserManagerDaoImpl implements UserManagerDao
         }
     }
 
+    @Override
+    public void deleteUserByUserId(int userid)
+    {
+        Connection conn = null;
+        try{
+            conn = JdbcUtils.getConnection();
+            conn.setAutoCommit(false);
+            PreparedStatement ps = conn.prepareStatement("delete from users where userid = ?");
+            ps.setInt(1,userid);
+            ps.execute();
+            conn.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            JdbcUtils.rollbackConnection(conn);
+        }finally
+        {
+            JdbcUtils.closeConnection(conn);
+        }
+    }
+
     // 拼接查询的SQL语句
     private String createSQL(Users users)
     {

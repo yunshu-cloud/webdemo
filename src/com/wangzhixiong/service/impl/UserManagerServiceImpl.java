@@ -57,4 +57,15 @@ public class UserManagerServiceImpl implements UserManagerService
         UserManagerDao userManagerDao = new UserManagerDaoImpl();
         userManagerDao.updateUserByUserId(users);
     }
+
+    /**
+     * 删除用户
+     * @param userid
+     */
+    @Override
+    public void dropUser(int userid)
+    {
+        UserManagerDao userManagerDao = new UserManagerDaoImpl();
+        userManagerDao.deleteUserByUserId(userid);
+    }
 }

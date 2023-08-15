@@ -36,6 +36,26 @@ public class UserManagerServlet extends HttpServlet
             this.preUpdate(req,resp);
         }else if ("modifyUser".equals(flag)){
             this.modifyUser(req,resp);
+        }else{
+            this.dropUser(req,resp);
+        }
+    }
+
+    /**
+     * 删除用户
+     * @param req
+     * @param resp
+     */
+    private void dropUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    {
+        String userid = req.getParameter("userid");
+        try{
+            UserManagerService userManagerService = new UserManagerServiceImpl();
+            userManagerService.dropUser(Integer.parseInt(userid));
+            resp.sendRedirect("ok.jsp");
+        }catch (Exception e){
+            e.printStackTrace();
+            resp.sendRedirect("error.jsp");
         }
     }
 

@@ -12,4 +12,6 @@ public interface UserManagerService
     Users findUserByUserId(int userid);
 
     void modifyUser(Users users);
+
+    void dropUser(int userid);
 }

@@ -51,4 +51,16 @@ public class JdbcUtils
             throw new RuntimeException(e);
         }
     }
+
+    // 事务回滚
+    public static void rollbackConnection(Connection conn)
+    {
+        try
+        {
+            conn.rollback();
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
 }

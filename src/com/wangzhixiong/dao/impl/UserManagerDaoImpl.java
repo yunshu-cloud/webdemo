@@ -73,6 +73,68 @@ public class UserManagerDaoImpl implements UserManagerDao
         return list;
     }
 
+    /**
+     * 根据用户id查询用户
+     * @param userid
+     * @return
+     */
+    @Override
+    public Users selectUserByUserId(int userid)
+    {
+        Connection conn = null;
+        Users user = null;
+        try{
+            conn = JdbcUtils.getConnection();
+            PreparedStatement ps = conn.prepareStatement("select * from users where userid = ?");
+            ps.setInt(1,userid);
+            ResultSet resultSet = ps.executeQuery();
+            while(resultSet.next()){
+                user = new Users();
+                user.setUserid(resultSet.getInt("userid"));
+                user.setPhonenumber(resultSet.getString("phonenumber"));
+                user.setUsersex(resultSet.getString("usersex"));
+                user.setQqnumber(resultSet.getString("qqnumber"));
+                user.setUserpwd(resultSet.getString("userpwd"));
+                user.setUsername(resultSet.getString("username"));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            JdbcUtils.rollbackConnection(conn);
+        }finally
+        {
+            JdbcUtils.closeConnection(conn);
+        }
+        return user;
+    }
+
+    /**
+     * 更新用户
+     * @param users
+     */
+    @Override
+    public void updateUserByUserId(Users users)
+    {
+        Connection conn = null;
+        try{
+            conn = JdbcUtils.getConnection();
+            conn.setAutoCommit(false);
+            PreparedStatement ps = conn.prepareStatement("update users set username=?,usersex = ?,phonenumber = ?,qqnumber = ? where userid = ?");
+            ps.setString(1,users.getUsername());
+            ps.setString(2,users.getUsersex());
+            ps.setString(3,users.getPhonenumber());
+            ps.setString(4,users.getQqnumber());
+            ps.setInt(5,users.getUserid());
+            ps.execute();
+            conn.commit();
+        }catch (Exception e){
+            e.printStackTrace();
+            JdbcUtils.rollbackConnection(conn);
+        }finally
+        {
+            JdbcUtils.closeConnection(conn);
+        }
+    }
+
     // 拼接查询的SQL语句
     private String createSQL(Users users)
     {

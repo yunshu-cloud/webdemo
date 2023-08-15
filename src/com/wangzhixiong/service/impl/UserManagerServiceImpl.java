@@ -34,4 +34,27 @@ public class UserManagerServiceImpl implements UserManagerService
         UserManagerDao userManagerDao = new UserManagerDaoImpl();
         return userManagerDao.selectUserByProperty(users);
     }
+
+    /**
+     * 更新用户的预查询
+     * @param userid
+     * @return
+     */
+    @Override
+    public Users findUserByUserId(int userid)
+    {
+        UserManagerDao userManagerDao = new UserManagerDaoImpl();
+        return userManagerDao.selectUserByUserId(userid);
+    }
+
+    /**
+     * 修改用户
+     * @param users
+     */
+    @Override
+    public void modifyUser(Users users)
+    {
+        UserManagerDao userManagerDao = new UserManagerDaoImpl();
+        userManagerDao.updateUserByUserId(users);
+    }
 }

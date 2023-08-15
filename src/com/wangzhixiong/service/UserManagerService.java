@@ -8,4 +8,8 @@ public interface UserManagerService
 {
     void addUser(Users users);
     List<Users> findUsers(Users users);
+
+    Users findUserByUserId(int userid);
+
+    void modifyUser(Users users);
 }

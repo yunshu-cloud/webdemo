@@ -30,9 +30,51 @@ public class UserManagerServlet extends HttpServlet
         String flag = req.getParameter("flag");
         if("addUser".equals(flag)){
             this.addUser(req,resp);
-        } else if ("findUser".equals(flag))
-        {
+        } else if ("findUser".equals(flag)){
             this.findUser(req,resp);
+        } else if ("preUpdate".equals(flag)){
+            this.preUpdate(req,resp);
+        }else if ("modifyUser".equals(flag)){
+            this.modifyUser(req,resp);
+        }
+    }
+
+    /**
+     * 处理更新用户请求
+     * @param req
+     * @param resp
+     */
+    private void modifyUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    {
+        String userid = req.getParameter("userid");
+        Users users = this.createUsers(req);
+        users.setUserid(Integer.parseInt(userid));
+        try{
+            UserManagerService userManagerService = new UserManagerServiceImpl();
+            userManagerService.modifyUser(users);
+            resp.sendRedirect("ok.jsp");
+        }catch (Exception e){
+            e.printStackTrace();
+            resp.sendRedirect("error.jsp");
+        }
+    }
+
+    /**
+     * 更新用户的预查询
+     * @param req
+     * @param resp
+     */
+    private void preUpdate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    {
+        String userid = req.getParameter("userid");
+        try{
+            UserManagerService userManagerService = new UserManagerServiceImpl();
+            Users user = userManagerService.findUserByUserId(Integer.parseInt(userid));
+            req.setAttribute("user",user);
+            req.getRequestDispatcher("usermanager/updateUser.jsp").forward(req,resp);
+        }catch (Exception e){
+            e.printStackTrace();
+            resp.sendRedirect("error.jsp");
         }
     }
 

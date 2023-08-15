@@ -61,6 +61,7 @@
         <ul class="menuson">
             <li><cite></cite><a href="userAdd.jsp" target="rightFrame">添加用户</a><i></i></li>
             <li><cite></cite><a href="findUser.jsp" target="rightFrame">查询用户</a><i></i></li>
+            <li><cite></cite><a href="logout.do" target="rightFrame">退出登录</a><i></i></li>
 
         </ul>
     </dd>
